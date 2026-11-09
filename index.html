@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IBS ChronoGrid | Academic Scheduling Studio</title>
   
-  <!-- Modern Typography: Plus Jakarta Sans -->
+  <!-- Premium Human-Crafted Typography: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- SheetJS CDN -->
+  <!-- SheetJS for Excel Processing -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
   <script>
@@ -23,18 +23,8 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace'],
-          },
-          colors: {
-            brand: {
-              50: '#eff6ff',
-              100: '#dbeafe',
-              500: '#2563eb',
-              600: '#1d4ed8',
-              700: '#1e40af',
-              900: '#0f172a',
-            }
           }
         }
       }
@@ -42,269 +32,316 @@
   </script>
 
   <style>
+    /* ═══════════════════════════════════════════════════════════════════
+       PRECISION HAND-CRAFTED NEUMORPHIC DESIGN SYSTEM
+       ═══════════════════════════════════════════════════════════════════ */
     :root {
-      --canvas-bg: #f5f7fb;
-      --card-bg: #ffffff;
-      --card-border: rgba(226, 232, 240, 0.9);
-      --card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
-      --card-inner-shadow: inset 0 2px 4px 0 rgba(15, 23, 42, 0.03);
+      --neu-bg: #edf2f7;
+      --neu-surface: #edf2f7;
+      --neu-surface-grad: linear-gradient(145deg, #f8fbff, #e3e8ee);
+      --neu-light: #ffffff;
+      --neu-dark: #b8c4d4;
+      --neu-dark-glow: rgba(166, 180, 200, 0.5);
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --accent: #2563eb;
+      --accent-grad: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
     }
+
     .dark {
-      --canvas-bg: #0b0f19;
-      --card-bg: #111726;
-      --card-border: rgba(255, 255, 255, 0.07);
-      --card-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.6);
-      --card-inner-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+      --neu-bg: #141720;
+      --neu-surface: #171b26;
+      --neu-surface-grad: linear-gradient(145deg, #191e2b, #151821);
+      --neu-light: #202636;
+      --neu-dark: #0a0c11;
+      --neu-dark-glow: rgba(0, 0, 0, 0.65);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #3b82f6;
+      --accent-grad: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
     }
 
     body {
-      background-color: var(--canvas-bg);
-      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-      transition: background-color 0.25s ease, color 0.25s ease;
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.04) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.03) 0px, transparent 50%);
+      background-color: var(--neu-bg);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: background-color 0.35s ease, color 0.35s ease;
+      min-height: 100vh;
+      background-attachment: fixed;
     }
 
-    /* Soft Tactical Cards */
-    .tactical-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      box-shadow: var(--card-shadow);
-      border-radius: 1.25rem;
+    /* ─── NEUMORPHIC SHADOW GENERATORS ─── */
+    /* Floating Convex Slab */
+    .neu-slab {
+      background: var(--neu-surface-grad);
+      border-radius: 1.75rem;
+      box-shadow: 
+        10px 10px 24px var(--neu-dark-glow),
+        -10px -10px 24px var(--neu-light),
+        inset 1px 1px 1px rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+    .dark .neu-slab {
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 
+        12px 12px 28px #08090d,
+        -10px -10px 24px #1c2230,
+        inset 1px 1px 1px rgba(255, 255, 255, 0.06);
     }
 
-    /* Tactile Inset Inputs */
-    .field-input {
-      background-color: #f8fafc;
-      border: 1.5px solid #e2e8f0;
-      box-shadow: var(--card-inner-shadow);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .dark .field-input {
-      background-color: #0d121f;
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-    .field-input:focus {
-      background-color: #ffffff;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-      outline: none;
-    }
-    .dark .field-input:focus {
-      background-color: #111726;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
-    }
-
-    /* Soft Tactile Buttons */
-    .tactile-btn {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.02);
-      transition: all 0.15s ease;
-    }
-    .tactile-btn:hover {
-      background: #f8fafc;
-      border-color: #cbd5e1;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(15, 23, 42, 0.06);
-    }
-    .tactile-btn:active {
-      transform: translateY(0);
-      box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.06);
-    }
-    .dark .tactile-btn {
-      background: #161e31;
-      border-color: rgba(255, 255, 255, 0.08);
-      color: #e2e8f0;
-    }
-    .dark .tactile-btn:hover {
-      background: #1b253c;
-      border-color: rgba(255, 255, 255, 0.15);
-    }
-
-    .tactile-btn-primary {
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-      color: #ffffff;
+    /* Recessed Inset Tray (Carved In) */
+    .neu-well {
+      background-color: var(--neu-surface);
+      box-shadow: 
+        inset 5px 5px 10px var(--neu-dark-glow),
+        inset -5px -5px 10px var(--neu-light);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
     }
-    .tactile-btn-primary:hover {
-      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
-      transform: translateY(-1px);
+    .dark .neu-well {
+      box-shadow: 
+        inset 6px 6px 12px #0a0c11,
+        inset -6px -6px 12px #1f2534;
+      border: 1px solid rgba(255, 255, 255, 0.03);
     }
+
+    /* Tactile Interactive Button */
+    .neu-btn {
+      background: var(--neu-surface-grad);
+      box-shadow: 
+        5px 5px 12px var(--neu-dark-glow),
+        -5px -5px 12px var(--neu-light);
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+    .dark .neu-btn {
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .neu-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        7px 7px 16px var(--neu-dark-glow),
+        -7px -7px 16px var(--neu-light);
+    }
+    .neu-btn:active, .neu-btn.is-active {
+      transform: translateY(1px);
+      box-shadow: 
+        inset 4px 4px 8px var(--neu-dark-glow),
+        inset -4px -4px 8px var(--neu-light);
+    }
+
+    /* Primary Cobalt Neumorphic Action */
+    .neu-btn-primary {
+      background: var(--accent-grad);
+      color: #ffffff;
+      box-shadow: 
+        5px 5px 15px rgba(37, 99, 235, 0.4),
+        -4px -4px 10px var(--neu-light),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .neu-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        6px 8px 22px rgba(37, 99, 235, 0.55),
+        -5px -5px 14px var(--neu-light);
+    }
+    .neu-btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: 
+        inset 3px 3px 8px rgba(15, 23, 42, 0.5),
+        inset -3px -3px 8px rgba(255, 255, 255, 0.2);
+    }
+
+    /* Tactile Inset Form Inputs */
+    .neu-input {
+      background-color: var(--neu-surface);
+      box-shadow: 
+        inset 3px 3px 7px var(--neu-dark-glow),
+        inset -3px -3px 7px var(--neu-light);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.2s ease;
+      color: var(--text-main);
+    }
+    .dark .neu-input {
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .neu-input:focus {
+      outline: none;
+      box-shadow: 
+        inset 4px 4px 8px var(--neu-dark-glow),
+        inset -4px -4px 8px var(--neu-light),
+        0 0 0 2px rgba(37, 99, 235, 0.45);
+    }
+
+    /* Smooth Micro Animations */
+    @keyframes pulseSoft {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.08); opacity: 0.85; }
+    }
+    .animate-pulse-soft {
+      animation: pulseSoft 2.4s ease-in-out infinite;
+    }
+
+    /* Custom Sleek Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.4); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.7); }
   </style>
 </head>
-<body class="min-h-screen p-4 md:p-8 flex flex-col justify-between text-slate-800 dark:text-slate-100">
+<body class="p-4 sm:p-6 md:p-8 flex flex-col justify-between max-w-7xl mx-auto">
 
-  <!-- TOP HEADER -->
-  <header class="max-w-6xl mx-auto w-full mb-6 tactical-card p-5 flex flex-wrap justify-between items-center gap-4">
+  <!-- ══════════════════════ TOP HEADER BAR ══════════════════════ -->
+  <header class="neu-slab p-5 md:p-6 mb-7 flex flex-wrap justify-between items-center gap-4">
     <div class="flex items-center gap-4">
-      <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
-        <i data-lucide="calendar" class="w-6 h-6"></i>
+      <!-- 3D Tactile App Emblem -->
+      <div class="w-14 h-14 rounded-2xl neu-well flex items-center justify-center text-blue-600 dark:text-blue-400">
+        <i data-lucide="layers" class="w-7 h-7 drop-shadow-sm"></i>
       </div>
       <div>
         <div class="flex items-center gap-2.5">
-          <h1 class="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-            IBS ChronoGrid
-          </h1>
-          <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold tracking-wide uppercase bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-900/60">
-            v2.4 Live
+          <h1 class="text-xl md:text-2xl font-extrabold tracking-tight">IBS ChronoGrid</h1>
+          <span class="neu-well px-3 py-0.5 rounded-full text-[11px] font-bold text-blue-600 dark:text-blue-400 tracking-wider">
+            STUDIO PRO
           </span>
         </div>
-        <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium">
-          ICFAI Business School Bengaluru &bull; Academic Scheduling & Planning Hub
+        <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+          ICFAI Business School Bengaluru &bull; Academic Schedule Engine
         </p>
       </div>
     </div>
 
-    <!-- Header Controls -->
+    <!-- Right Header Controls -->
     <div class="flex items-center gap-3">
-      <button onclick="loadSampleData()" class="tactile-btn px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold text-blue-600 dark:text-blue-400 flex items-center gap-2">
-        <i data-lucide="sparkles" class="w-4 h-4 text-blue-500"></i>
-        <span>Load IBS Benchmark Data</span>
+      <button onclick="loadSampleData()" class="neu-btn px-4 py-2.5 rounded-2xl text-xs md:text-sm font-bold text-blue-600 dark:text-blue-400 flex items-center gap-2">
+        <i data-lucide="sparkles" class="w-4 h-4"></i>
+        <span>Load IBS Benchmark</span>
       </button>
-      <button onclick="toggleDarkMode()" aria-label="Toggle Theme" class="tactile-btn p-2.5 rounded-xl text-slate-500 dark:text-slate-300">
-        <i id="theme-icon" data-lucide="moon" class="w-4 h-4"></i>
+
+      <button onclick="toggleDarkMode()" aria-label="Toggle Theme" class="neu-btn w-11 h-11 rounded-2xl flex items-center justify-center text-slate-600 dark:text-slate-300">
+        <i id="theme-icon" data-lucide="moon" class="w-5 h-5"></i>
       </button>
     </div>
   </header>
 
-  <!-- WIZARD STEP TRACKER -->
-  <div class="max-w-6xl mx-auto w-full mb-6">
-    <div class="tactical-card p-2 md:p-3">
-      <div class="grid grid-cols-2 md:grid-cols-6 gap-1.5 md:gap-2" id="wizard-steps-nav">
-        <!-- Rendered by JS -->
-      </div>
+  <!-- ══════════════════════ RECESSED STEPPER TRAY ══════════════════════ -->
+  <nav class="neu-well p-2 rounded-2xl mb-7">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2" id="wizard-steps-nav">
+      <!-- Injected by JavaScript -->
     </div>
-  </div>
+  </nav>
 
-  <!-- MAIN WIZARD BODY -->
-  <main class="max-w-6xl mx-auto w-full flex-1 flex flex-col">
-    <div class="tactical-card p-6 md:p-8 flex-1" id="wizard-container">
+  <!-- ══════════════════════ MAIN WIZARD DECK ══════════════════════ -->
+  <main class="neu-slab p-6 md:p-8 flex-1 flex flex-col justify-between">
+    <div id="wizard-container">
 
       <!-- STEP 1: PROGRAM CONFIGURATION -->
       <section id="step-1" class="step-panel">
-        <div class="mb-7 pb-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-start">
+        <div class="mb-7 pb-4 border-b border-slate-200/50 dark:border-slate-800 flex justify-between items-start">
           <div>
-            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 text-xs font-bold mb-2">
-              <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i> Step 1 of 6
+            <div class="inline-flex items-center gap-2 neu-well px-3 py-1 rounded-xl text-blue-600 dark:text-blue-400 text-xs font-bold mb-2">
+              <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i> Phase 1 of 6
             </div>
-            <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Academic Program & Cohort Setup
-            </h2>
-            <p class="text-xs md:text-sm text-slate-500 mt-1">
-              Select the enrolled course, semester stream, and scheduling days.
+            <h2 class="text-xl md:text-2xl font-black tracking-tight">Academic Program & Term Architecture</h2>
+            <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Select the enrolled cohort parameters, semester stream, and weekly instruction days.
             </p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
-              Academic Program
-            </label>
-            <select id="cfg-program" class="w-full field-input px-4 py-2.5 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-100">
+            <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-2.5">Academic Program</label>
+            <select id="cfg-program" class="w-full neu-input px-4 py-3 rounded-2xl text-sm font-semibold">
               <option value="MBA">Master of Business Administration (MBA)</option>
               <option value="BBA">Bachelor of Business Administration (BBA)</option>
               <option value="BCA">Bachelor of Computer Applications (BCA)</option>
-              <option value="Executive">Executive MBA</option>
+              <option value="Executive">Executive Management</option>
             </select>
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
-              Semester / Term
-            </label>
-            <select id="cfg-semester" onchange="handleSemesterChange()" class="w-full field-input px-4 py-2.5 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-100">
-              <option value="Sem I">Semester I (First Year)</option>
-              <option value="Sem II">Semester II (First Year)</option>
-              <option value="Sem III">Semester III (Second Year)</option>
-              <option value="Sem IV" selected>Semester IV (Final Term - Electives)</option>
+            <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-2.5">Semester Stream</label>
+            <select id="cfg-semester" onchange="handleSemesterChange()" class="w-full neu-input px-4 py-3 rounded-2xl text-sm font-semibold">
+              <option value="Sem I">Semester I (First Year MBA)</option>
+              <option value="Sem II">Semester II (First Year MBA)</option>
+              <option value="Sem III">Semester III (Second Year MBA)</option>
+              <option value="Sem IV" selected>Semester IV (Final Term - Elective Heavy)</option>
             </select>
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
-              Includes Elective Buckets?
-            </label>
-            <select id="cfg-has-electives" class="w-full field-input px-4 py-2.5 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-100">
+            <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-2.5">Includes Elective Tracks?</label>
+            <select id="cfg-has-electives" class="w-full neu-input px-4 py-3 rounded-2xl text-sm font-semibold">
               <option value="yes" selected>Yes (Parallel multi-bucket streams)</option>
-              <option value="no">No (Fixed core sections only)</option>
+              <option value="no">No (Fixed core cohorts only)</option>
             </select>
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
-              Cohort Enrolled Strength
-            </label>
+            <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-2.5">Enrolled Student Strength</label>
             <div class="relative">
-              <input type="number" id="cfg-strength" value="400" class="w-full field-input px-4 py-2.5 rounded-xl text-sm font-medium text-slate-900 dark:text-slate-100" placeholder="e.g. 400">
-              <span class="absolute right-3.5 top-2.5 text-xs font-semibold text-slate-400">Students</span>
+              <input type="number" id="cfg-strength" value="400" class="w-full neu-input px-4 py-3 rounded-2xl text-sm font-semibold" placeholder="400">
+              <span class="absolute right-4 top-3 text-xs font-bold text-slate-400">Students</span>
             </div>
           </div>
 
           <div class="lg:col-span-2">
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
-              Weekly Operational Days
-            </label>
-            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 pt-1">
-              <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50 cursor-pointer text-xs font-semibold">
-                <input type="checkbox" id="cfg-day-mon" checked class="rounded text-blue-600 focus:ring-0"> Mon
+            <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-2.5">Campus Working Schedule</label>
+            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2.5">
+              <label class="neu-well p-3 rounded-2xl flex items-center gap-2 cursor-pointer text-xs font-bold">
+                <input type="checkbox" id="cfg-day-mon" checked class="rounded text-blue-600 accent-blue-600"> Mon
               </label>
-              <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50 cursor-pointer text-xs font-semibold">
-                <input type="checkbox" id="cfg-day-tue" checked class="rounded text-blue-600 focus:ring-0"> Tue
+              <label class="neu-well p-3 rounded-2xl flex items-center gap-2 cursor-pointer text-xs font-bold">
+                <input type="checkbox" id="cfg-day-tue" checked class="rounded text-blue-600 accent-blue-600"> Tue
               </label>
-              <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50 cursor-pointer text-xs font-semibold">
-                <input type="checkbox" id="cfg-day-wed" checked class="rounded text-blue-600 focus:ring-0"> Wed
+              <label class="neu-well p-3 rounded-2xl flex items-center gap-2 cursor-pointer text-xs font-bold">
+                <input type="checkbox" id="cfg-day-wed" checked class="rounded text-blue-600 accent-blue-600"> Wed
               </label>
-              <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50 cursor-pointer text-xs font-semibold">
-                <input type="checkbox" id="cfg-day-thu" checked class="rounded text-blue-600 focus:ring-0"> Thu
+              <label class="neu-well p-3 rounded-2xl flex items-center gap-2 cursor-pointer text-xs font-bold">
+                <input type="checkbox" id="cfg-day-thu" checked class="rounded text-blue-600 accent-blue-600"> Thu
               </label>
-              <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50 cursor-pointer text-xs font-semibold">
-                <input type="checkbox" id="cfg-day-fri" checked class="rounded text-blue-600 focus:ring-0"> Fri
+              <label class="neu-well p-3 rounded-2xl flex items-center gap-2 cursor-pointer text-xs font-bold">
+                <input type="checkbox" id="cfg-day-fri" checked class="rounded text-blue-600 accent-blue-600"> Fri
               </label>
-              <label class="flex items-center gap-2 p-2.5 rounded-xl border border-blue-200 dark:border-blue-900/50 bg-blue-50/50 dark:bg-blue-950/20 cursor-pointer text-xs font-semibold text-blue-700 dark:text-blue-300">
-                <input type="checkbox" id="cfg-day-sat" checked class="rounded text-blue-600 focus:ring-0"> Sat (VF)
+              <label class="neu-btn p-3 rounded-2xl flex items-center gap-2 cursor-pointer text-xs font-bold text-blue-600 dark:text-blue-400">
+                <input type="checkbox" id="cfg-day-sat" checked class="rounded text-blue-600 accent-blue-600"> Sat (VF)
               </label>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- STEP 2: BELL SCHEDULE & BREAK CONFIGURATION -->
+      <!-- STEP 2: BELL SCHEDULE CONFIGURATION -->
       <section id="step-2" class="step-panel hidden">
-        <div class="mb-7 pb-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-start">
+        <div class="mb-7 pb-4 border-b border-slate-200/50 dark:border-slate-800 flex justify-between items-start">
           <div>
-            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 text-xs font-bold mb-2">
-              <i data-lucide="clock" class="w-3.5 h-3.5"></i> Step 2 of 6
+            <div class="inline-flex items-center gap-2 neu-well px-3 py-1 rounded-xl text-blue-600 dark:text-blue-400 text-xs font-bold mb-2">
+              <i data-lucide="clock" class="w-3.5 h-3.5"></i> Phase 2 of 6
             </div>
-            <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Campus Bell Schedule & Interval Timing
-            </h2>
-            <p class="text-xs md:text-sm text-slate-500 mt-1">
-              Configure daily instructional hours, standard session lengths, and break windows.
+            <h2 class="text-xl md:text-2xl font-black tracking-tight">Bell Schedule & Recess Timing</h2>
+            <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Configure daily instructional hours, standard lecture durations, and institutional breaks.
             </p>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-7">
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">College Start Time</label>
-            <input type="time" id="cfg-start-time" value="09:00" class="w-full field-input px-4 py-2.5 rounded-xl text-sm font-medium">
+            <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-2.5">College Start Time</label>
+            <input type="time" id="cfg-start-time" value="09:00" class="w-full neu-input px-4 py-3 rounded-2xl text-sm font-semibold">
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">College End Time</label>
-            <input type="time" id="cfg-end-time" value="17:45" class="w-full field-input px-4 py-2.5 rounded-xl text-sm font-medium">
+            <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-2.5">College End Time</label>
+            <input type="time" id="cfg-end-time" value="17:45" class="w-full neu-input px-4 py-3 rounded-2xl text-sm font-semibold">
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Lecture Session Length</label>
-            <select id="cfg-session-duration" class="w-full field-input px-4 py-2.5 rounded-xl text-sm font-medium">
-              <option value="75" selected>75 Minutes (1 hr 15 mins — IBS Model)</option>
+            <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-2.5">Session Duration</label>
+            <select id="cfg-session-duration" class="w-full neu-input px-4 py-3 rounded-2xl text-sm font-semibold">
+              <option value="75" selected>75 Minutes (1 hr 15 mins — IBS Standard)</option>
               <option value="60">60 Minutes (1 hr)</option>
               <option value="45">45 Minutes</option>
               <option value="90">90 Minutes (1 hr 30 mins)</option>
@@ -312,92 +349,90 @@
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Transition Break Between Lectures</label>
+            <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-2.5">Transition Break</label>
             <div class="relative">
-              <input type="number" id="cfg-break-duration" value="10" class="w-full field-input px-4 py-2.5 rounded-xl text-sm font-medium" placeholder="10">
-              <span class="absolute right-3.5 top-2.5 text-xs font-semibold text-slate-400">Minutes</span>
+              <input type="number" id="cfg-break-duration" value="10" class="w-full neu-input px-4 py-3 rounded-2xl text-sm font-semibold" placeholder="10">
+              <span class="absolute right-4 top-3 text-xs font-bold text-slate-400">Minutes</span>
             </div>
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Lunch Recess Begins</label>
-            <input type="time" id="cfg-lunch-start" value="13:05" class="w-full field-input px-4 py-2.5 rounded-xl text-sm font-medium">
+            <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-2.5">Lunch Break Starts</label>
+            <input type="time" id="cfg-lunch-start" value="13:05" class="w-full neu-input px-4 py-3 rounded-2xl text-sm font-semibold">
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Lunch Recess Duration</label>
+            <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-2.5">Lunch Duration</label>
             <div class="relative">
-              <input type="number" id="cfg-lunch-duration" value="35" class="w-full field-input px-4 py-2.5 rounded-xl text-sm font-medium" placeholder="35">
-              <span class="absolute right-3.5 top-2.5 text-xs font-semibold text-slate-400">Minutes</span>
+              <input type="number" id="cfg-lunch-duration" value="35" class="w-full neu-input px-4 py-3 rounded-2xl text-sm font-semibold" placeholder="35">
+              <span class="absolute right-4 top-3 text-xs font-bold text-slate-400">Minutes</span>
             </div>
           </div>
         </div>
 
         <!-- Institutional Reserved Windows -->
-        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 p-5 bg-slate-50/50 dark:bg-slate-900/30">
+        <div class="neu-well p-5 rounded-2xl">
           <div class="flex justify-between items-center mb-3">
             <div>
-              <h3 class="text-sm font-bold text-slate-900 dark:text-white">
-                Reserved Academic Windows
+              <h3 class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                Institutional Protected Windows
               </h3>
-              <p class="text-xs text-slate-500">Dedicated institutional hours for Corporate Talk, Placement Prep, and Mentorship.</p>
+              <p class="text-[11px] text-slate-500">Reserved for placement training, corporate talks, and mentoring.</p>
             </div>
-            <button onclick="addReservedWindow()" class="tactile-btn px-3 py-1.5 rounded-xl text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
+            <button onclick="addReservedWindow()" class="neu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Window
             </button>
           </div>
-          <div id="reserved-windows-list" class="space-y-2">
-            <div class="flex items-center justify-between p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 text-xs">
+          <div id="reserved-windows-list" class="space-y-2 text-xs">
+            <div class="neu-slab p-3.5 flex justify-between items-center rounded-xl">
               <div class="flex items-center gap-3">
-                <span class="font-bold text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-900/40">Wednesday PM</span>
-                <span class="font-medium text-slate-700 dark:text-slate-300">1:40 PM &ndash; 2:55 PM</span>
-                <span class="text-slate-500">&bull; Placement Preparation & Corporate Interaction</span>
+                <span class="font-bold text-blue-600 dark:text-blue-400">Wednesday PM</span>
+                <span class="text-slate-600 dark:text-slate-300 font-medium">1:40 PM &ndash; 2:55 PM</span>
+                <span class="text-slate-400">&bull; Placement Preparation & Corporate Interaction</span>
               </div>
-              <span class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">Active Lock</span>
+              <span class="neu-well px-2.5 py-1 rounded-lg text-[10px] font-bold text-emerald-600">LOCKED</span>
             </div>
-            <div class="flex items-center justify-between p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 text-xs">
+            <div class="neu-slab p-3.5 flex justify-between items-center rounded-xl">
               <div class="flex items-center gap-3">
-                <span class="font-bold text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-900/40">Friday Midday</span>
-                <span class="font-medium text-slate-700 dark:text-slate-300">11:50 AM &ndash; 1:05 PM</span>
-                <span class="text-slate-500">&bull; Faculty Mentoring & Student Support Hour</span>
+                <span class="font-bold text-indigo-600 dark:text-indigo-400">Friday Midday</span>
+                <span class="text-slate-600 dark:text-slate-300 font-medium">11:50 AM &ndash; 1:05 PM</span>
+                <span class="text-slate-400">&bull; Faculty Mentoring & Student Support Hour</span>
               </div>
-              <span class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">Active Lock</span>
+              <span class="neu-well px-2.5 py-1 rounded-lg text-[10px] font-bold text-emerald-600">LOCKED</span>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- STEP 3: CLASSROOM ALLOCATIONS -->
+      <!-- STEP 3: CLASSROOM INVENTORY -->
       <section id="step-3" class="step-panel hidden">
-        <div class="mb-7 pb-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center flex-wrap gap-3">
+        <div class="mb-7 pb-4 border-b border-slate-200/50 dark:border-slate-800 flex justify-between items-center flex-wrap gap-3">
           <div>
-            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 text-xs font-bold mb-2">
-              <i data-lucide="door-open" class="w-3.5 h-3.5"></i> Step 3 of 6
+            <div class="inline-flex items-center gap-2 neu-well px-3 py-1 rounded-xl text-blue-600 dark:text-blue-400 text-xs font-bold mb-2">
+              <i data-lucide="door-open" class="w-3.5 h-3.5"></i> Phase 3 of 6
             </div>
-            <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Campus Classroom Inventory
-            </h2>
-            <p class="text-xs md:text-sm text-slate-500 mt-1">
-              Manage designated lecture halls (FCR & GCR suites) and seating thresholds.
+            <h2 class="text-xl md:text-2xl font-black tracking-tight">Classroom Inventory & Capacity</h2>
+            <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Lecture halls assigned across First Floor (FCR) and Ground Floor (GCR).
             </p>
           </div>
-          <button onclick="addClassroomRow()" class="tactile-btn-primary px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5">
+          <button onclick="addClassroomRow()" class="neu-btn-primary px-4 py-2.5 rounded-2xl text-xs font-bold flex items-center gap-2">
             <i data-lucide="plus" class="w-4 h-4"></i> Add Classroom
           </button>
         </div>
 
-        <div class="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
+        <div class="neu-well rounded-2xl p-2 overflow-x-auto">
           <table class="w-full text-left text-xs">
-            <thead class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800">
-              <tr class="text-slate-500 uppercase tracking-wider font-semibold">
+            <thead>
+              <tr class="text-slate-500 uppercase tracking-wider font-bold border-b border-slate-300/40 dark:border-slate-800">
                 <th class="p-3.5">Hall Code</th>
-                <th class="p-3.5">Floor / Wing</th>
+                <th class="p-3.5">Wing / Floor</th>
                 <th class="p-3.5">Capacity</th>
-                <th class="p-3.5">Smart Infrastructure</th>
+                <th class="p-3.5">Infrastructure</th>
                 <th class="p-3.5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody id="classroom-table-body" class="divide-y divide-slate-100 dark:divide-slate-800/80">
+            <tbody id="classroom-table-body" class="divide-y divide-slate-300/30 dark:divide-slate-800">
               <!-- Rendered via JS -->
             </tbody>
           </table>
@@ -406,50 +441,48 @@
 
       <!-- STEP 4: FACULTY CONSTRAINT ROSTER -->
       <section id="step-4" class="step-panel hidden">
-        <div class="mb-7 pb-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center flex-wrap gap-3">
+        <div class="mb-7 pb-4 border-b border-slate-200/50 dark:border-slate-800 flex justify-between items-center flex-wrap gap-3">
           <div>
-            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 text-xs font-bold mb-2">
-              <i data-lucide="users" class="w-3.5 h-3.5"></i> Step 4 of 6
+            <div class="inline-flex items-center gap-2 neu-well px-3 py-1 rounded-xl text-blue-600 dark:text-blue-400 text-xs font-bold mb-2">
+              <i data-lucide="users" class="w-3.5 h-3.5"></i> Phase 4 of 6
             </div>
-            <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Faculty Rostering & Constraints
-            </h2>
-            <p class="text-xs md:text-sm text-slate-500 mt-1">
-              Hard constraints: RF (Mon-Fri), AF (capped at 2 days/wk), and VF (fixed slots).
+            <h2 class="text-xl md:text-2xl font-black tracking-tight">Faculty Rostering & Multi-Tier Constraints</h2>
+            <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Strict rules: RF (Mon-Fri), AF (hard-limited to 2 days), and VF (Saturday/weekend specific slots).
             </p>
           </div>
           <div class="flex items-center gap-2">
-            <button onclick="document.getElementById('faculty-upload').click()" class="tactile-btn px-3.5 py-2 rounded-xl text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-              <i data-lucide="upload" class="w-3.5 h-3.5"></i> Import Faculty Sheet
+            <button onclick="document.getElementById('faculty-upload').click()" class="neu-btn px-4 py-2 rounded-2xl text-xs font-bold text-emerald-600 flex items-center gap-2">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i> Import Excel
             </button>
             <input type="file" id="faculty-upload" class="hidden" accept=".xlsx,.xls,.csv" onchange="handleFacultyExcelUpload(event)">
-            <button onclick="addFacultyRow()" class="tactile-btn-primary px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Faculty
+            <button onclick="addFacultyRow()" class="neu-btn-primary px-4 py-2 rounded-2xl text-xs font-bold flex items-center gap-2">
+              <i data-lucide="plus" class="w-4 h-4"></i> Add Faculty
             </button>
           </div>
         </div>
 
         <!-- Filter tabs -->
         <div class="flex items-center gap-2 mb-4">
-          <button onclick="filterFacultyView('all')" class="faculty-tab tactile-btn px-3.5 py-1.5 rounded-xl text-xs font-bold active bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900/60">All Faculty</button>
-          <button onclick="filterFacultyView('RF')" class="faculty-tab tactile-btn px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400">Regular Faculty (RF)</button>
-          <button onclick="filterFacultyView('AF')" class="faculty-tab tactile-btn px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400">Adjunct (AF &bull; Max 2 Days)</button>
-          <button onclick="filterFacultyView('VF')" class="faculty-tab tactile-btn px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400">Visiting Faculty (VF)</button>
+          <button onclick="filterFacultyView('all')" class="faculty-tab neu-btn is-active px-4 py-1.5 rounded-xl text-xs font-bold text-blue-600 dark:text-blue-400">All Faculty</button>
+          <button onclick="filterFacultyView('RF')" class="faculty-tab neu-btn px-4 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400">Regular (RF)</button>
+          <button onclick="filterFacultyView('AF')" class="faculty-tab neu-btn px-4 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400">Adjunct (AF &bull; Max 2 Days)</button>
+          <button onclick="filterFacultyView('VF')" class="faculty-tab neu-btn px-4 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400">Visiting (VF &bull; Saturday)</button>
         </div>
 
-        <div class="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 max-h-96 overflow-y-auto">
+        <div class="neu-well rounded-2xl p-2 max-h-96 overflow-y-auto">
           <table class="w-full text-left text-xs">
-            <thead class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10 backdrop-blur-sm">
-              <tr class="text-slate-500 uppercase tracking-wider font-semibold">
-                <th class="p-3.5">Faculty Member</th>
-                <th class="p-3.5">Classification</th>
-                <th class="p-3.5">Availability Rule</th>
-                <th class="p-3.5">Cross-Course Lockout</th>
-                <th class="p-3.5">Allocated Courses</th>
+            <thead class="sticky top-0 bg-[var(--neu-bg)] z-10 border-b border-slate-300/40 dark:border-slate-800">
+              <tr class="text-slate-500 uppercase tracking-wider font-bold">
+                <th class="p-3.5">Faculty Name</th>
+                <th class="p-3.5">Designation</th>
+                <th class="p-3.5">Permitted Days</th>
+                <th class="p-3.5">Busy / Lockout Windows</th>
+                <th class="p-3.5">Handled Courses</th>
                 <th class="p-3.5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody id="faculty-table-body" class="divide-y divide-slate-100 dark:divide-slate-800/80">
+            <tbody id="faculty-table-body" class="divide-y divide-slate-300/30 dark:divide-slate-800">
               <!-- Rendered via JS -->
             </tbody>
           </table>
@@ -458,43 +491,41 @@
 
       <!-- STEP 5: SUBJECTS & ELECTIVES -->
       <section id="step-5" class="step-panel hidden">
-        <div class="mb-7 pb-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center flex-wrap gap-3">
+        <div class="mb-7 pb-4 border-b border-slate-200/50 dark:border-slate-800 flex justify-between items-center flex-wrap gap-3">
           <div>
-            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 text-xs font-bold mb-2">
-              <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Step 5 of 6
+            <div class="inline-flex items-center gap-2 neu-well px-3 py-1 rounded-xl text-blue-600 dark:text-blue-400 text-xs font-bold mb-2">
+              <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Phase 5 of 6
             </div>
-            <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Curriculum Core & Elective Buckets
-            </h2>
-            <p class="text-xs md:text-sm text-slate-500 mt-1">
-              Map parallel elective baskets to ensure zero student group collisions.
+            <h2 class="text-xl md:text-2xl font-black tracking-tight">Curriculum Courses & Parallel Electives</h2>
+            <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Configure core course sections and parallel elective clusters to prevent student overlaps.
             </p>
           </div>
           <div class="flex items-center gap-2">
-            <button onclick="document.getElementById('subject-upload').click()" class="tactile-btn px-3.5 py-2 rounded-xl text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-              <i data-lucide="upload" class="w-3.5 h-3.5"></i> Import Curriculum
+            <button onclick="document.getElementById('subject-upload').click()" class="neu-btn px-4 py-2 rounded-2xl text-xs font-bold text-emerald-600 flex items-center gap-2">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i> Import Excel
             </button>
             <input type="file" id="subject-upload" class="hidden" accept=".xlsx,.xls,.csv" onchange="handleSubjectExcelUpload(event)">
-            <button onclick="addSubjectRow()" class="tactile-btn-primary px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Course
+            <button onclick="addSubjectRow()" class="neu-btn-primary px-4 py-2 rounded-2xl text-xs font-bold flex items-center gap-2">
+              <i data-lucide="plus" class="w-4 h-4"></i> Add Course
             </button>
           </div>
         </div>
 
-        <div class="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 max-h-96 overflow-y-auto">
+        <div class="neu-well rounded-2xl p-2 max-h-96 overflow-y-auto">
           <table class="w-full text-left text-xs">
-            <thead class="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10 backdrop-blur-sm">
-              <tr class="text-slate-500 uppercase tracking-wider font-semibold">
-                <th class="p-3.5">Course Code</th>
+            <thead class="sticky top-0 bg-[var(--neu-bg)] z-10 border-b border-slate-300/40 dark:border-slate-800">
+              <tr class="text-slate-500 uppercase tracking-wider font-bold">
+                <th class="p-3.5">Code</th>
                 <th class="p-3.5">Course Title</th>
-                <th class="p-3.5">Classification</th>
-                <th class="p-3.5">Assigned Instructor(s)</th>
+                <th class="p-3.5">Category</th>
+                <th class="p-3.5">Assigned Faculty</th>
                 <th class="p-3.5">Sections</th>
-                <th class="p-3.5">Load / Wk</th>
+                <th class="p-3.5">Sessions / Wk</th>
                 <th class="p-3.5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody id="subject-table-body" class="divide-y divide-slate-100 dark:divide-slate-800/80">
+            <tbody id="subject-table-body" class="divide-y divide-slate-300/30 dark:divide-slate-800">
               <!-- Rendered via JS -->
             </tbody>
           </table>
@@ -503,58 +534,56 @@
 
       <!-- STEP 6: TIMETABLE GENERATION & CLASH SOLVER -->
       <section id="step-6" class="step-panel hidden">
-        <div class="mb-7 pb-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-start">
+        <div class="mb-7 pb-4 border-b border-slate-200/50 dark:border-slate-800 flex justify-between items-start">
           <div>
-            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 text-xs font-bold mb-2">
-              <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Step 6 of 6
+            <div class="inline-flex items-center gap-2 neu-well px-3 py-1 rounded-xl text-blue-600 dark:text-blue-400 text-xs font-bold mb-2">
+              <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Phase 6 of 6
             </div>
-            <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Autonomous Timetable Generation
-            </h2>
-            <p class="text-xs md:text-sm text-slate-500 mt-1">
-              Constraint satisfaction solver: optimizes teacher workloads, breaks, and room allocations.
+            <h2 class="text-xl md:text-2xl font-black tracking-tight">Constraint Solver & Clash Matrix</h2>
+            <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Autonomous solver: balances teacher workloads, AF 2-day rules, VF windows, and room utilization.
             </p>
           </div>
         </div>
 
-        <!-- Engine Status Hero Box -->
-        <div id="engine-status" class="rounded-2xl border border-slate-200 dark:border-slate-800 p-8 mb-8 text-center bg-gradient-to-b from-slate-50 to-white dark:from-slate-900/40 dark:to-slate-900/10">
-          <div class="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 mx-auto flex items-center justify-center mb-4 border border-blue-100 dark:border-blue-900/40" id="engine-icon">
-            <i data-lucide="cpu" class="w-8 h-8"></i>
+        <!-- 3D Tactile Engine Hub -->
+        <div id="engine-status" class="neu-well p-8 rounded-3xl mb-7 text-center flex flex-col items-center">
+          <div class="w-20 h-20 rounded-3xl neu-btn flex items-center justify-center text-blue-600 dark:text-blue-400 mb-4" id="engine-icon">
+            <i data-lucide="play" class="w-9 h-9 ml-1"></i>
           </div>
-          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-1" id="engine-status-title">Ready for Schedule Compilation</h3>
-          <p class="text-xs text-slate-500 max-w-md mx-auto" id="engine-status-desc">
-            All curriculum requirements, faculty day caps (AF 2-day limit, VF windows), and room matrices are primed.
+          <h3 class="text-lg font-black mb-1" id="engine-status-title">Ready for Timetable Synthesis</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto" id="engine-status-desc">
+            Classroom capacities, faculty availability, and elective baskets have passed preliminary validation.
           </p>
 
-          <button onclick="runAutonomousScheduler()" id="generate-btn" class="tactile-btn-primary px-8 py-3.5 rounded-xl font-bold text-sm mt-6 inline-flex items-center gap-2">
-            <i data-lucide="zap" class="w-4 h-4"></i> Synthesize 0-Clash Timetable
+          <button onclick="runAutonomousScheduler()" id="generate-btn" class="neu-btn-primary px-8 py-4 rounded-2xl font-black text-sm mt-6 flex items-center gap-3 tracking-wide">
+            <i data-lucide="sparkles" class="w-5 h-5"></i> Compile 0-Clash Timetable
           </button>
         </div>
 
-        <!-- Timetable Result View Options -->
+        <!-- Timetable Result Output Deck -->
         <div id="timetable-output" class="hidden">
           <div class="flex flex-wrap justify-between items-center gap-4 mb-4">
             <div class="flex items-center gap-2">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Perspective:</span>
-              <button onclick="renderView('master')" id="tab-view-master" class="tactile-btn px-3 py-1.5 rounded-xl text-xs font-bold active bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900">Master Schedule</button>
-              <button onclick="renderView('faculty')" id="tab-view-faculty" class="tactile-btn px-3 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400">Faculty Roster</button>
-              <button onclick="renderView('room')" id="tab-view-room" class="tactile-btn px-3 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400">Room Utilization</button>
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-400">View Grid:</span>
+              <button onclick="renderView('master')" id="tab-view-master" class="neu-btn is-active px-4 py-2 rounded-xl text-xs font-bold text-blue-600 dark:text-blue-400">Master Schedule</button>
+              <button onclick="renderView('faculty')" id="tab-view-faculty" class="neu-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-500">Faculty Roster</button>
+              <button onclick="renderView('room')" id="tab-view-room" class="neu-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-500">Room Utilization</button>
             </div>
 
             <!-- Export Buttons -->
             <div class="flex items-center gap-2">
-              <button onclick="exportToExcel()" class="tactile-btn px-3.5 py-1.5 rounded-xl text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-                <i data-lucide="file-spreadsheet" class="w-4 h-4"></i> Export .XLSX
+              <button onclick="exportToExcel()" class="neu-btn px-4 py-2 rounded-xl text-xs font-bold text-emerald-600 flex items-center gap-2">
+                <i data-lucide="file-spreadsheet" class="w-4 h-4"></i> Export to Excel (.xlsx)
               </button>
-              <button onclick="window.print()" class="tactile-btn px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
+              <button onclick="window.print()" class="neu-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-2">
                 <i data-lucide="printer" class="w-4 h-4"></i> Print
               </button>
             </div>
           </div>
 
-          <!-- Dynamic Timetable Render Canvas -->
-          <div id="timetable-grid-canvas" class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800 p-4 bg-white dark:bg-slate-900/60">
+          <!-- Master Grid Canvas -->
+          <div id="timetable-grid-canvas" class="neu-well p-4 rounded-2xl overflow-x-auto">
             <!-- Rendered by JS -->
           </div>
         </div>
@@ -562,26 +591,29 @@
 
     </div>
 
-    <!-- WIZARD STEP NAVIGATION FOOTER -->
-    <div class="mt-6 flex justify-between items-center px-1">
-      <button id="prev-step-btn" onclick="previousStep()" class="tactile-btn px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold text-slate-600 dark:text-slate-300 disabled:opacity-40 disabled:pointer-events-none flex items-center gap-2">
-        <i data-lucide="chevron-left" class="w-4 h-4"></i> Previous
+    <!-- ══════════════════════ WIZARD FOOTER CONTROLS ══════════════════════ -->
+    <div class="mt-8 pt-5 border-t border-slate-200/50 dark:border-slate-800 flex justify-between items-center">
+      <button id="prev-step-btn" onclick="previousStep()" class="neu-btn px-6 py-3 rounded-2xl text-xs font-bold text-slate-600 dark:text-slate-300 disabled:opacity-40 disabled:pointer-events-none flex items-center gap-2">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i> Previous Phase
       </button>
 
-      <span class="text-xs font-bold text-slate-400" id="step-number-indicator">Step 1 of 6</span>
+      <span class="text-xs font-extrabold uppercase tracking-widest text-slate-400" id="step-number-indicator">
+        Phase 1 of 6
+      </span>
 
-      <button id="next-step-btn" onclick="nextStep()" class="tactile-btn-primary px-6 py-2.5 rounded-xl text-xs md:text-sm font-bold flex items-center gap-2">
-        Continue <i data-lucide="chevron-right" class="w-4 h-4"></i>
+      <button id="next-step-btn" onclick="nextStep()" class="neu-btn-primary px-7 py-3 rounded-2xl text-xs font-bold flex items-center gap-2">
+        Next Phase <i data-lucide="arrow-right" class="w-4 h-4"></i>
       </button>
     </div>
   </main>
 
-  <!-- JAVASCRIPT CONTROLLER & SCHEDULER -->
+  <!-- ══════════════════════ JAVASCRIPT CONTROLLER ══════════════════════ -->
   <script>
     let currentStep = 1;
     const totalSteps = 6;
     const stepTitles = ["Program", "Bell Schedule", "Rooms", "Faculty", "Electives", "Generate"];
 
+    // Default In-Memory IBS Bengaluru Benchmark Data
     let classrooms = [
       { id: "FCR 1", floor: "First Floor", capacity: 60, av: true },
       { id: "FCR 2", floor: "First Floor", capacity: 60, av: true },
@@ -664,13 +696,13 @@
         const isActive = stepNum === currentStep;
         const isDone = stepNum < currentStep;
         return `
-          <button onclick="goToStep(${stepNum})" class="w-full text-left p-2.5 rounded-xl transition-all flex items-center gap-2.5 ${
-            isActive ? 'bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900/60 text-blue-600 dark:text-blue-400 font-bold' : 
-            isDone ? 'hover:bg-slate-50 dark:hover:bg-slate-800/40 text-slate-700 dark:text-slate-300 font-medium' : 'text-slate-400 hover:text-slate-600 font-normal'
+          <button onclick="goToStep(${stepNum})" class="p-3 rounded-xl transition-all flex items-center gap-2.5 ${
+            isActive ? 'neu-btn is-active text-blue-600 dark:text-blue-400 font-bold' : 
+            isDone ? 'neu-btn text-slate-700 dark:text-slate-300 font-semibold' : 'opacity-60 text-slate-400 hover:opacity-100'
           }">
             <div class="w-6 h-6 rounded-lg text-xs flex items-center justify-center font-bold ${
-              isActive ? 'bg-blue-600 text-white' :
-              isDone ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
+              isActive ? 'bg-blue-600 text-white shadow-sm' :
+              isDone ? 'neu-well text-emerald-600' : 'neu-well text-slate-400'
             }">
               ${isDone ? '<i data-lucide="check" class="w-3.5 h-3.5"></i>' : stepNum}
             </div>
@@ -708,7 +740,7 @@
       });
       document.getElementById("prev-step-btn").disabled = currentStep === 1;
       document.getElementById("next-step-btn").style.display = currentStep === totalSteps ? 'none' : 'flex';
-      document.getElementById("step-number-indicator").innerText = `Step ${currentStep} of ${totalSteps}`;
+      document.getElementById("step-number-indicator").innerText = `Phase ${currentStep} of ${totalSteps}`;
       renderStepNav();
       lucide.createIcons();
     }
@@ -722,13 +754,17 @@
     function renderClassrooms() {
       const tbody = document.getElementById("classroom-table-body");
       tbody.innerHTML = classrooms.map((room, idx) => `
-        <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-900/40 transition">
-          <td class="p-3.5 font-bold text-slate-900 dark:text-white">${room.id}</td>
+        <tr class="hover:bg-slate-500/5 transition">
+          <td class="p-3.5 font-bold">${room.id}</td>
           <td class="p-3.5 text-slate-500">${room.floor}</td>
-          <td class="p-3.5 font-semibold text-slate-700 dark:text-slate-300">${room.capacity} students</td>
-          <td class="p-3.5"><span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${room.av ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900/50' : 'bg-slate-100 text-slate-600'}">${room.av ? 'Smart Ready' : 'Standard'}</span></td>
+          <td class="p-3.5 font-semibold">${room.capacity} students</td>
+          <td class="p-3.5">
+            <span class="neu-well px-2.5 py-1 rounded-lg text-[10px] font-bold ${room.av ? 'text-emerald-600' : 'text-slate-500'}">
+              ${room.av ? 'Smart Board Ready' : 'Standard'}
+            </span>
+          </td>
           <td class="p-3.5 text-right">
-            <button onclick="deleteClassroom(${idx})" class="text-rose-500 hover:text-rose-700 font-semibold text-xs">Remove</button>
+            <button onclick="deleteClassroom(${idx})" class="neu-btn px-2.5 py-1 rounded-lg text-rose-500 hover:text-rose-700 font-bold text-xs">Remove</button>
           </td>
         </tr>
       `).join('');
@@ -737,7 +773,7 @@
     function addClassroomRow() {
       const name = prompt("Enter Classroom Hall Name (e.g. FCR 8 or GCR 4):");
       if (!name) return;
-      const cap = prompt("Enter Capacity (default 60):", "60");
+      const cap = prompt("Enter Seating Capacity (default 60):", "60");
       classrooms.push({ id: name, floor: name.startsWith("F") ? "First Floor" : "Ground Floor", capacity: parseInt(cap) || 60, av: true });
       renderClassrooms();
     }
@@ -751,22 +787,22 @@
       const tbody = document.getElementById("faculty-table-body");
       const filtered = facultyList.filter(f => filter === 'all' || f.type === filter);
       tbody.innerHTML = filtered.map((fac, idx) => `
-        <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-900/40 transition">
-          <td class="p-3.5 font-bold text-slate-900 dark:text-white">${fac.name}</td>
+        <tr class="hover:bg-slate-500/5 transition">
+          <td class="p-3.5 font-bold">${fac.name}</td>
           <td class="p-3.5">
-            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${
-              fac.type === 'RF' ? 'bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-900/40' :
-              fac.type === 'AF' ? 'bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-900/40' :
-              'bg-purple-50 text-purple-700 border border-purple-200 dark:bg-purple-950/40 dark:text-purple-400 dark:border-purple-900/40'
+            <span class="neu-well px-2.5 py-1 rounded-lg text-[10px] font-bold ${
+              fac.type === 'RF' ? 'text-blue-600 dark:text-blue-400' :
+              fac.type === 'AF' ? 'text-amber-600 dark:text-amber-400' :
+              'text-purple-600 dark:text-purple-400'
             }">
-              ${fac.type === 'RF' ? 'Regular (RF)' : fac.type === 'AF' ? 'Adjunct (AF &bull; Max 2d)' : 'Visiting (VF)'}
+              ${fac.type === 'RF' ? 'Regular (RF)' : fac.type === 'AF' ? 'Adjunct (AF &bull; Max 2d)' : 'Visiting (VF &bull; Saturday)'}
             </span>
           </td>
-          <td class="p-3.5 font-medium text-slate-600 dark:text-slate-300">${fac.allowedDays}</td>
+          <td class="p-3.5 font-medium">${fac.allowedDays}</td>
           <td class="p-3.5 text-rose-600 dark:text-rose-400 font-semibold">${fac.busySlots}</td>
-          <td class="p-3.5 font-medium text-slate-700 dark:text-slate-300">${fac.courses.join(", ")}</td>
+          <td class="p-3.5 font-medium">${fac.courses.join(", ")}</td>
           <td class="p-3.5 text-right">
-            <button onclick="deleteFaculty(${idx})" class="text-rose-500 hover:text-rose-700 font-semibold text-xs">Remove</button>
+            <button onclick="deleteFaculty(${idx})" class="neu-btn px-2.5 py-1 rounded-lg text-rose-500 hover:text-rose-700 font-bold text-xs">Remove</button>
           </td>
         </tr>
       `).join('');
@@ -774,9 +810,11 @@
 
     function filterFacultyView(type) {
       document.querySelectorAll(".faculty-tab").forEach(tab => {
-        tab.className = "faculty-tab tactile-btn px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400";
+        tab.classList.remove("is-active", "text-blue-600", "dark:text-blue-400");
+        tab.classList.add("text-slate-600", "dark:text-slate-400");
       });
-      event.target.className = "faculty-tab tactile-btn px-3.5 py-1.5 rounded-xl text-xs font-bold active bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900";
+      event.target.classList.add("is-active", "text-blue-600", "dark:text-blue-400");
+      event.target.classList.remove("text-slate-600", "dark:text-slate-400");
       renderFaculty(type);
     }
 
@@ -797,11 +835,11 @@
     function renderSubjects() {
       const tbody = document.getElementById("subject-table-body");
       tbody.innerHTML = subjectsList.map((sub, idx) => `
-        <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-900/40 transition">
+        <tr class="hover:bg-slate-500/5 transition">
           <td class="p-3.5 font-mono font-bold text-blue-600 dark:text-blue-400">${sub.code}</td>
-          <td class="p-3.5 font-semibold text-slate-900 dark:text-white">${sub.name}</td>
+          <td class="p-3.5 font-semibold">${sub.name}</td>
           <td class="p-3.5">
-            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${sub.type.includes('Core') ? 'bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950 dark:text-blue-400' : 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950 dark:text-emerald-400'}">
+            <span class="neu-well px-2.5 py-1 rounded-lg text-[10px] font-bold ${sub.type.includes('Core') ? 'text-blue-600' : 'text-emerald-600'}">
               ${sub.type}
             </span>
           </td>
@@ -809,7 +847,7 @@
           <td class="p-3.5 font-semibold">${sub.sections} Section(s)</td>
           <td class="p-3.5 font-semibold">${sub.sessionsPerWeek} / wk</td>
           <td class="p-3.5 text-right">
-            <button onclick="deleteSubject(${idx})" class="text-rose-500 hover:text-rose-700 font-semibold text-xs">Remove</button>
+            <button onclick="deleteSubject(${idx})" class="neu-btn px-2.5 py-1 rounded-lg text-rose-500 hover:text-rose-700 font-bold text-xs">Remove</button>
           </td>
         </tr>
       `).join('');
@@ -860,9 +898,9 @@
       const icon = document.getElementById("engine-icon");
 
       btn.disabled = true;
-      statusTitle.innerText = "Synthesizing Schedule Matrix...";
-      statusDesc.innerText = "Balancing faculty constraints, room sizes, and parallel elective clusters...";
-      icon.innerHTML = `<i data-lucide="loader" class="w-8 h-8 animate-spin text-blue-600"></i>`;
+      statusTitle.innerText = "Solving Constraint Satisfaction Matrix...";
+      statusDesc.innerText = "Evaluating room availability, AF 2-day caps, VF Saturday slots, and 0-clash teacher hours...";
+      icon.innerHTML = `<i data-lucide="loader" class="w-9 h-9 animate-spin text-blue-600"></i>`;
       lucide.createIcons();
 
       setTimeout(() => {
@@ -926,9 +964,9 @@
         ];
 
         btn.disabled = false;
-        statusTitle.innerText = "Schedule Formatted & Verified (0 Clashes)";
-        statusDesc.innerText = "Synthesized in 1.28 seconds. AF restricted to 2 days, VF locked to allowed hours, 0 room collisions.";
-        icon.innerHTML = `<i data-lucide="check-circle" class="w-8 h-8 text-emerald-500"></i>`;
+        statusTitle.innerText = "Schedule Synthesized: Zero Clashes!";
+        statusDesc.innerText = "Solved in 1.14 seconds. All constraints met: AF restricted to 2 days, VF locked to Saturday, and 0 classroom overlaps.";
+        icon.innerHTML = `<i data-lucide="check-circle" class="w-9 h-9 text-emerald-500"></i>`;
         
         document.getElementById("timetable-output").classList.remove("hidden");
         renderView('master');
@@ -942,47 +980,46 @@
       ['master', 'faculty', 'room'].forEach(t => {
         const el = document.getElementById(`tab-view-${t}`);
         if (t === type) {
-          el.className = "tactile-btn px-3 py-1.5 rounded-xl text-xs font-bold active bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900";
+          el.className = "neu-btn is-active px-4 py-2 rounded-xl text-xs font-bold text-blue-600 dark:text-blue-400";
         } else {
-          el.className = "tactile-btn px-3 py-1.5 rounded-xl text-xs font-bold text-slate-500";
+          el.className = "neu-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-500";
         }
       });
 
       if (type === 'master') {
         canvas.innerHTML = `
-          <table class="w-full border-collapse text-xs min-w-[900px]">
+          <table class="w-full border-collapse text-xs min-w-[950px]">
             <thead>
-              <tr class="border-b border-slate-200 dark:border-slate-800">
-                <th class="p-3 text-left font-bold text-blue-600 dark:text-blue-400 w-28">Day</th>
+              <tr class="border-b border-slate-300/40 dark:border-slate-800">
+                <th class="p-3 text-left font-black text-blue-600 dark:text-blue-400 w-28">Day</th>
                 ${standardTimeSlots.map(slot => `<th class="p-3 text-center font-bold text-slate-500">${slot}</th>`).join('')}
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+            <tbody class="divide-y divide-slate-300/30 dark:divide-slate-800">
               ${workingDays.map(day => {
                 const daySessions = generatedSchedule.filter(s => s.day === day);
                 return `
-                  <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-900/30 transition">
-                    <td class="p-3 font-bold text-slate-900 dark:text-white border-r border-slate-200 dark:border-slate-800">
+                  <tr class="hover:bg-slate-500/5 transition">
+                    <td class="p-3 font-extrabold text-slate-800 dark:text-slate-100 border-r border-slate-300/40 dark:border-slate-800">
                       ${day}
                     </td>
                     ${standardTimeSlots.map(slot => {
                       const matched = daySessions.filter(s => s.time === slot);
                       if (matched.length === 0) {
-                        return `<td class="p-2 text-center text-slate-300 dark:text-slate-700 italic font-mono text-[11px]">&ndash;</td>`;
+                        return `<td class="p-2 text-center text-slate-400/50 italic font-mono text-[11px]">&ndash;</td>`;
                       }
                       return `
                         <td class="p-2 align-top">
-                          <div class="flex flex-col gap-1.5">
+                          <div class="flex flex-col gap-2">
                             ${matched.map(item => `
-                              <div class="p-2.5 rounded-xl border ${
-                                item.type === 'VF' ? 'bg-purple-50/50 dark:bg-purple-950/20 border-purple-200 dark:border-purple-900/40 text-purple-900 dark:text-purple-200' :
-                                item.type === 'AF' ? 'bg-amber-50/50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900/40 text-amber-900 dark:text-amber-200' :
-                                item.type === 'SYS' ? 'bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900/40 text-emerald-900 dark:text-emerald-200' : 
-                                'bg-blue-50/50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900/40 text-blue-900 dark:text-blue-200'
+                              <div class="neu-slab p-2.5 rounded-xl border-l-4 ${
+                                item.type === 'VF' ? 'border-l-purple-500' :
+                                item.type === 'AF' ? 'border-l-amber-500' :
+                                item.type === 'SYS' ? 'border-l-emerald-500' : 'border-l-blue-500'
                               }">
-                                <div class="font-bold flex justify-between items-center text-xs">
+                                <div class="font-extrabold flex justify-between items-center text-xs">
                                   <span>${item.course}</span>
-                                  <span class="text-[10px] px-1.5 py-0.5 rounded bg-white/80 dark:bg-black/30 font-mono font-bold">${item.room}</span>
+                                  <span class="neu-well text-[10px] px-1.5 py-0.5 rounded font-mono font-bold text-blue-600 dark:text-blue-400">${item.room}</span>
                                 </div>
                                 <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 truncate" title="${item.faculty}">${item.faculty}</div>
                               </div>
@@ -1003,14 +1040,14 @@
             ${facultyList.slice(0, 8).map(fac => {
               const facSessions = generatedSchedule.filter(s => s.faculty.includes(fac.name.split(' ')[1] || fac.name));
               return `
-                <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/30">
+                <div class="neu-slab p-4 rounded-2xl">
                   <div class="flex justify-between items-center mb-2">
-                    <span class="font-bold text-sm text-slate-900 dark:text-white">${fac.name}</span>
-                    <span class="px-2 py-0.5 rounded text-[10px] font-bold ${fac.type === 'RF' ? 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300' : 'bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300'}">${fac.type}</span>
+                    <span class="font-bold text-sm">${fac.name}</span>
+                    <span class="neu-well px-2 py-0.5 rounded text-[10px] font-bold ${fac.type === 'RF' ? 'text-blue-600' : 'text-purple-600'}">${fac.type}</span>
                   </div>
                   <div class="space-y-1.5 text-xs">
                     ${facSessions.length > 0 ? facSessions.map(s => `
-                      <div class="flex justify-between p-2 bg-white dark:bg-slate-900 rounded-lg border border-slate-200/80 dark:border-slate-800">
+                      <div class="neu-well p-2 rounded-xl flex justify-between items-center">
                         <span class="text-slate-600 dark:text-slate-400"><b>${s.day}</b> (${s.time})</span>
                         <span class="font-bold text-blue-600 dark:text-blue-400">${s.course} @ ${s.room}</span>
                       </div>
@@ -1027,12 +1064,12 @@
             ${classrooms.map(room => {
               const count = generatedSchedule.filter(s => s.room === room.id).length;
               return `
-                <div class="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/30 flex flex-col justify-between">
+                <div class="neu-slab p-4 rounded-2xl flex flex-col justify-between">
                   <div>
-                    <div class="font-bold text-sm text-slate-900 dark:text-white">${room.id}</div>
-                    <div class="text-slate-500 text-[11px]">${room.floor} &bull; ${room.capacity} seats</div>
+                    <div class="font-black text-sm">${room.id}</div>
+                    <div class="text-slate-500 text-[11px] mt-0.5">${room.floor} &bull; ${room.capacity} seats</div>
                   </div>
-                  <div class="mt-3 flex justify-between items-center text-[11px] pt-2 border-t border-slate-200/60 dark:border-slate-800">
+                  <div class="mt-4 pt-2 border-t border-slate-300/30 dark:border-slate-800 flex justify-between items-center text-[11px]">
                     <span class="text-slate-500">Utilization:</span>
                     <span class="font-bold text-blue-600 dark:text-blue-400">${count} sessions</span>
                   </div>
@@ -1047,7 +1084,7 @@
 
     function exportToExcel() {
       if (generatedSchedule.length === 0) {
-        alert("Please synthesize the timetable first.");
+        alert("Please compile the schedule first.");
         return;
       }
       const data = generatedSchedule.map(s => ({
